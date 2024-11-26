@@ -25,6 +25,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO users 
     (Username, Pass) 
     VALUES (?, ?)";
+    
+    $stmt = $conn->prepare($sql);
+
+    // Bind the parameters to the placeholders
+    $stmt->bind_param("ss", $user, $pass); // "ss" means both parameters are strings
+    
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "New record created successfully!";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+    
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
     // Display sanitized user input
     echo "<br> User: $user<br>";
     
